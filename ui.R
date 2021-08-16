@@ -11,11 +11,6 @@
 library(shiny)
 ####
 
-dir.create("data_temp")
-dir.create("exported_data")
-dir.create("raw_data")
-
-
 # install and load packages
 list.of.packages <- c("shinydashboard", "shinycssloaders", "shinybusy", "haven", "R.matlab", "stringr")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
