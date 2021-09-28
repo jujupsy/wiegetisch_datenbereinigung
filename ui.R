@@ -12,7 +12,7 @@ library("shiny")
 ####
 
 # Ordner erstellen
-dir.create("data_temp"); dir.create("exported_data"); dir.create("raw_data")
+dir.create("data_temp"); dir.create("exported_data")
 
 # install and load packages
 list.of.packages <- c("shinydashboard", "shinycssloaders", "shinybusy", "stringr")
