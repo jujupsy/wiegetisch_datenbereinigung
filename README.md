@@ -18,6 +18,8 @@ vp time CCC KSU PME BKS BES LBS
 ...
 
 ```
+Die einzelnen .txt Dateien müssen dann in den Unterordner ./wiegetisch_datenbereinigung-main/raw_data im Arbeitsverzeichnis kopiert werden. WICHTIG: Davor die Beispieldaten "Example[1, 2]\_1HZ.txt" löschen!
+
 
 ### Datenaufbereitung
 
