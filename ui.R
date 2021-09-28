@@ -1,4 +1,4 @@
-## Wiegetisch Preprocess Data
+## Wiegetisch Preprocess Data - ui file
 # shiny app to preprocess data following this steps:
 #  - aggregate data (1000 Hz to defined timebreaks)
 #  - inspect data and set maximum and minimum values
@@ -11,6 +11,7 @@
 library(shiny)
 ####
 
+# Ordner erstellen
 dir.create("data_temp"); dir.create("exported_data"); dir.create("raw_data")
 
 # install and load packages
@@ -45,9 +46,9 @@ ui <- dashboardPage(
     tags$script(HTML("$('body').addClass('fixed');")),
 
     tabItems(
-##### load data
+      ##### load data
       tabItem(tabName = "load_data",
-       fluidRow(
+        fluidRow(
           column(12,
             ### Load Data
             box(title = "Load data", collapsible = TRUE, width = NULL,
@@ -56,32 +57,32 @@ ui <- dashboardPage(
               p ("Put the raw '.txt' files in the ./raw_data directory. The files must contain the following columns: vp, time and columns with the names of the snack. The columns must be white-space separated, decimal character is a . and a header must be given."),
               p("!!! Please note that the loading of the data can take some time !!!"),
               textInput("snack_names", "Set column names of snacks: (comma separated)", 
-                         value = "CCC, KSU, PME, BKS, BES, LBS"),
+                value = "CCC, KSU, PME, BKS, BES, LBS"),
               textInput("name_dat_raw", "Set name of binary file:", 
-                        value = paste0("dat_raw_", format(Sys.time(), "%Y-%m-%d_%H%M"), ".rds")),
+                value = paste0("dat_raw_", format(Sys.time(), "%Y-%m-%d_%H%M"), ".rds")),
               actionButton("start_loading", "Load '.txt' files"),
               br(), br(),
               withSpinner(verbatimTextOutput("inspect_loaded", placeholder = FALSE), type = 7, size = .5, proxy.height = 80)
             )
 
-      ))),
+            ))),
 
-##### process data
+      ##### process data
       tabItem(tabName = "process_data",
         fluidRow(
-            box(title = "Choose data", collapsible = TRUE, width = 12,
-              uiOutput("load_data"),
-              verbatimTextOutput("inspect_loaded_rds"))
-            
-        ),
-        fluidRow(
-          
-            ### Set Range
-            box(title = "Process data", collapsible = TRUE, width = 12,
+          box(title = "Choose data", collapsible = TRUE, width = 12,
+            uiOutput("load_data"),
+            verbatimTextOutput("inspect_loaded_rds"))
 
-              # previous, next button and current vp and snack
-              splitLayout(cellWidths = c("80px", "70px", "120px"),
-                conditionalPanel(
+          ),
+        fluidRow(
+
+          ### Set Range
+          box(title = "Process data", collapsible = TRUE, width = 12,
+
+            # previous, next button and current vp and snack
+            splitLayout(cellWidths = c("80px", "70px", "120px"),
+              conditionalPanel(
                 condition = "output.previous_show_button == true",
                 actionButton("previous_range", "Previous")),
               conditionalPanel(
@@ -91,51 +92,46 @@ ui <- dashboardPage(
 
 
             # manual control sliders (parameters)
-              splitLayout(cellWidths = c("80%", "20%"), 
-                            cellArgs = list(style = "padding: 6px"),
-                 sliderInput("man_range", "Set meaningful range:",
-    min = 0, max = 3300, value = c(100, 3000), step = .1),
+            splitLayout(cellWidths = c("80%", "20%"), 
+              cellArgs = list(style = "padding: 6px"),
+              sliderInput("man_range", "Set meaningful range:",
+                min = 0, max = 3300, value = c(100, 3000), step = .1),
 
-                sliderInput("man_delete_first", "Remove first # points:",
-    min = 0, max = 10, value = 0, step = 1)
-                
-                ),
-              splitLayout(cellWidths = c("17%", "17%", "17%", "17%", "10%", "20%"), 
-                            cellArgs = list(style = "padding: 6px"),
-                sliderInput("man_first_lag", "First running mean (RM) lag:",
-    min = 0, max = 30, value = 20, step = 1),
-                sliderInput("man_first_error", "Error for first RM:",
-    min = 0, max = 30, value = 20, step = 1),
-                sliderInput("man_second_lag", "Second RM lag:",
-    min = 0, max = 30, value = 10, step = 1),
-                sliderInput("man_second_error", "Error for second RM:",
-    min = 0, max = 30, value = 10, step = 1),
-                # add point
-                verbatimTextOutput("show_mouse"),
-                column( width = 12, 
+              sliderInput("man_delete_first", "Remove first # points:",
+                min = 0, max = 10, value = 0, step = 1)
+
+              ),
+            splitLayout(cellWidths = c("17%", "17%", "17%", "17%", "10%", "20%"), 
+              cellArgs = list(style = "padding: 6px"),
+              sliderInput("man_first_lag", "First running mean (RM) lag:",
+                min = 0, max = 30, value = 20, step = 1),
+              sliderInput("man_first_error", "Error for first RM:",
+                min = 0, max = 30, value = 20, step = 1),
+              sliderInput("man_second_lag", "Second RM lag:",
+                min = 0, max = 30, value = 10, step = 1),
+              sliderInput("man_second_error", "Error for second RM:",
+                min = 0, max = 30, value = 10, step = 1),
+              # add point
+              verbatimTextOutput("show_mouse"),
+              column( width = 12, 
                 conditionalPanel(
-                 condition = "output.add_point_show_button == true",
-                 actionButton("add_point", "Add point manually")
-                ),
+                  condition = "output.add_point_show_button == true",
+                  actionButton("add_point", "Add point manually")
+                  ),
                 actionButton("reset_points", "Reset all manual points")
-                )
-                ),
-
-# plot data 2 x 2
-              withSpinner(plotOutput("range_plot", click = "plot_click"), , type = 7, size = .5)
-
-
               )
- 
-           
+              ),
 
+            # plot data 2 x 2
+            withSpinner(plotOutput("range_plot", click = "plot_click"), , type = 7, size = .5)
 
+          )
         )
-      ),
+        ),
 
-# export data
-tabItem(tabName = "export_data",
-       fluidRow(
+      # export data
+      tabItem(tabName = "export_data",
+        fluidRow(
           column(12,
             ### Load Data
             box(title = "Export data", collapsible = FALSE, width = NULL,
@@ -144,12 +140,6 @@ tabItem(tabName = "export_data",
               textInput("add_info_name", "Add specific tags to exported .txt files (e.g. study name)"),
               actionButton("export_data_btn", "Export data")
 
-
-
-              )
-
-      ))
-
-))))
+)))))))
 
 
