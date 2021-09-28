@@ -7,26 +7,22 @@
 #  - visual inspection and final export
 
 #### DEBUG ONLY
-#setwd("C:/Users/Juli/Desktop/Auswertung MA/wiegetisch_preprocess_data")
-library(shiny)
+#setwd("...")
+library("shiny")
 ####
 
 # Ordner erstellen
 dir.create("data_temp"); dir.create("exported_data"); dir.create("raw_data")
 
 # install and load packages
-list.of.packages <- c("shinydashboard", "shinycssloaders", "shinybusy", "haven", "R.matlab", "stringr")
+list.of.packages <- c("shinydashboard", "shinycssloaders", "shinybusy", "stringr")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
-
 
 library("shinydashboard")
 library("shinycssloaders")
 library("shinybusy")
-library("haven") 
-library("R.matlab")
-library("stringr")
-
+#library("stringr")
 
 # load helper functions
 source("helper_functions.R")

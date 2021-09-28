@@ -1,9 +1,9 @@
 
 
 ### functions to run Wiegetisch preprocessing data app
-library("haven")     # read_sav
+#library("haven")     # read_sav
 #library("R.matlab")  # read .mat files
-library("stringr")   # work with strings
+#library("stringr")   # work with strings
 
 # .txt Dateien einlesen und initiale Parameter berechnen
 load_and_save_raw_data <- function(file_path_txt, name_dat_raw, snack_names){
