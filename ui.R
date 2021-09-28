@@ -15,14 +15,13 @@ library("shiny")
 dir.create("data_temp"); dir.create("exported_data")
 
 # install and load packages
-list.of.packages <- c("shinydashboard", "shinycssloaders", "shinybusy", "stringr")
+list.of.packages <- c("shinydashboard", "shinycssloaders", "shinybusy")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
 library("shinydashboard")
 library("shinycssloaders")
 library("shinybusy")
-#library("stringr")
 
 # load helper functions
 source("helper_functions.R")
